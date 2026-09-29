@@ -125,10 +125,10 @@ Phiên bản ở trên là bản đã khóa trong `pubspec.lock`.
 
 | Họ tên | Email | Vai trò |
 |---|---|---|
-| Bui Nhut Phi | `<email>` | Trưởng nhóm, phát triển chính, build & release |
-| Nguyen Hoai Phong | `<email>` | Kiểm thử nhận diện, đề xuất ngưỡng |
-| Huynh Quang Tuan | `<email>` | Nội dung bài học, góp ý UI |
-| Nguyen Thanh Danh | `<email>` | Tài liệu, kiểm tra hướng dẫn cài đặt, demo |
+| Bui Nhut Phi | phibui490@gmail.com | Trưởng nhóm, phát triển chính, build & release |
+| Nguyen Hoai Phong | hoaiphongdz1312@gmail.com | Kiểm thử nhận diện, đề xuất ngưỡng |
+| Huynh Quang Tuan | hqtuan1709@gmail.com | Nội dung bài học, góp ý UI |
+| Nguyen Thanh Danh | danhnguyen150125@gmail.com | Tài liệu, kiểm tra hướng dẫn cài đặt, demo |
 
 Muốn tự build hoặc đóng góp: xem [CONTRIBUTING.md](CONTRIBUTING.md).
 
