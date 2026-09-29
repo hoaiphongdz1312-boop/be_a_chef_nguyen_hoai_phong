@@ -152,6 +152,7 @@ Android SDK cũng có thể đặt ở ổ khác ngay lúc cài (vd. `D:\dev\and
 | App báo không có quyền camera | Đã từ chối quyền trước đó | Cài đặt → Ứng dụng → Be A Chef → Quyền → bật **Camera** |
 | Android Studio không thấy thiết bị / không hiện nút Run cho Flutter | Mở nhầm thư mục `android/` hoặc chưa cài plugin Flutter | Mở **thư mục gốc** có `pubspec.yaml`; cài plugin Flutter; *File → Invalidate Caches → Restart* |
 | `INSTALL_FAILED_USER_RESTRICTED` (Xiaomi) | Chưa bật *Cài đặt qua USB* | Xem ghi chú Xiaomi ở mục 5 |
+| `Could not close incremental caches ... compileDebugKotlin` | Project và `PUB_CACHE` nằm **khác ổ đĩa** (vd. project ở `C:`, pub cache ở `D:`), Kotlin incremental không xử lý được | Để project cùng ổ với `PUB_CACHE` (vd. clone vào `D:\...`), hoặc thêm `kotlin.incremental=false` vào `android/gradle.properties` |
 | Build lần đầu rất lâu hoặc báo lỗi tải | Đang tải Gradle/thư viện; mạng chặn | Chờ; kiểm tra mạng/proxy; chạy lại `flutter run` |
 
 ## 9. Quy trình đóng góp
