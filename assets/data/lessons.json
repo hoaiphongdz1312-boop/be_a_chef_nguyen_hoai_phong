@@ -1,0 +1,262 @@
+[
+  {
+    "id": "trung-chien-hanh",
+    "name": "Trứng chiên hành",
+    "description": "Món cơ bản nhất khi vào bếp: trứng chiên vàng, thơm mùi hành lá.",
+    "difficulty": 1,
+    "duration_minutes": 10,
+    "ingredients": [
+      "3 quả trứng gà",
+      "2 nhánh hành lá",
+      "1 thìa canh nước mắm",
+      "1/4 thìa cà phê tiêu",
+      "2 thìa canh dầu ăn"
+    ],
+    "steps": [
+      "Rửa sạch hành lá, cắt nhỏ.",
+      "Đập trứng vào bát, thêm nước mắm, tiêu và hành lá, dùng đũa đánh đều khoảng 1 phút cho trứng tan.",
+      "Đặt chảo lên bếp, cho dầu ăn vào, đun lửa vừa đến khi dầu nóng.",
+      "Đổ trứng vào chảo, nghiêng chảo cho trứng dàn đều.",
+      "Chiên khoảng 2 phút đến khi mặt dưới vàng, lật mặt và chiên thêm 1 phút.",
+      "Tắt bếp, cho trứng ra đĩa, cắt miếng vừa ăn."
+    ]
+  },
+  {
+    "id": "rau-muong-xao-toi",
+    "name": "Rau muống xào tỏi",
+    "description": "Rau muống giòn xanh, thơm tỏi phi — món rau quen thuộc trong bữa cơm gia đình.",
+    "difficulty": 1,
+    "duration_minutes": 15,
+    "ingredients": [
+      "1 bó rau muống (khoảng 500 g)",
+      "5 tép tỏi",
+      "1 thìa canh dầu ăn",
+      "1 thìa canh nước mắm",
+      "1/2 thìa cà phê hạt nêm"
+    ],
+    "steps": [
+      "Nhặt rau muống, bỏ lá úa và phần gốc già, ngắt thành đoạn khoảng 10 cm, rửa sạch và để ráo.",
+      "Bóc vỏ tỏi, đập dập rồi băm nhỏ.",
+      "Đun sôi một nồi nước, chần rau khoảng 30 giây rồi vớt ra thả ngay vào bát nước lạnh để rau giữ màu xanh, sau đó để ráo.",
+      "Cho dầu vào chảo, phi một nửa lượng tỏi đến khi vàng thơm.",
+      "Cho rau vào, đảo nhanh tay trên lửa lớn, nêm nước mắm và hạt nêm.",
+      "Xào thêm 1–2 phút, cho phần tỏi còn lại vào đảo đều rồi tắt bếp."
+    ]
+  },
+  {
+    "id": "canh-rau-ngot-thit-bam",
+    "name": "Canh rau ngót thịt bằm",
+    "description": "Canh rau ngót nấu thịt bằm thanh mát, dễ nấu, hợp ăn hằng ngày.",
+    "difficulty": 1,
+    "duration_minutes": 20,
+    "ingredients": [
+      "300 g rau ngót",
+      "150 g thịt heo xay",
+      "1 củ hành tím",
+      "1 lít nước",
+      "1 thìa canh nước mắm",
+      "1/2 thìa cà phê hạt nêm",
+      "1 thìa cà phê dầu ăn"
+    ],
+    "steps": [
+      "Tuốt lá rau ngót, rửa sạch, vò nhẹ hoặc thái sơ cho rau nhanh chín.",
+      "Băm hành tím. Ướp thịt xay với 1/2 thìa nước mắm và một ít hành tím trong 10 phút.",
+      "Phi thơm phần hành tím còn lại với dầu ăn trong nồi, cho thịt vào xào đến khi săn lại.",
+      "Đổ nước vào nồi, đun sôi rồi hớt bọt cho canh trong.",
+      "Cho rau ngót vào, nêm nước mắm và hạt nêm, nấu thêm khoảng 3 phút đến khi rau chín mềm.",
+      "Nếm lại cho vừa ăn rồi tắt bếp."
+    ]
+  },
+  {
+    "id": "com-chien-trung",
+    "name": "Cơm chiên trứng",
+    "description": "Cơm chiên trứng tơi hạt, tận dụng cơm nguội — nhanh gọn cho bữa sáng hoặc bữa trưa.",
+    "difficulty": 1,
+    "duration_minutes": 20,
+    "ingredients": [
+      "2 chén cơm nguội",
+      "2 quả trứng gà",
+      "1 củ hành tím",
+      "2 nhánh hành lá",
+      "1 thìa canh nước tương (xì dầu)",
+      "1/2 thìa cà phê hạt nêm",
+      "2 thìa canh dầu ăn"
+    ],
+    "steps": [
+      "Bóp tơi cơm nguội cho các hạt tách rời nhau.",
+      "Băm nhỏ hành tím, cắt nhỏ hành lá.",
+      "Đập trứng ra bát và đánh tan.",
+      "Phi hành tím với dầu cho thơm, đổ trứng vào đảo nhanh đến khi trứng vừa se lại.",
+      "Cho cơm vào, đảo đều trên lửa lớn khoảng 5 phút để cơm khô và săn hạt.",
+      "Nêm nước tương và hạt nêm, rắc hành lá, đảo thêm 1 phút rồi tắt bếp."
+    ]
+  },
+  {
+    "id": "thit-kho-trung",
+    "name": "Thịt kho trứng",
+    "description": "Thịt ba chỉ kho mềm cùng trứng trong nước dừa, nước kho màu cánh gián đậm đà.",
+    "difficulty": 2,
+    "duration_minutes": 90,
+    "ingredients": [
+      "500 g thịt ba chỉ",
+      "5 quả trứng vịt hoặc trứng gà",
+      "400 ml nước dừa tươi",
+      "3 củ hành tím",
+      "3 tép tỏi",
+      "2 thìa canh nước mắm",
+      "1 thìa canh đường",
+      "1/2 thìa cà phê tiêu"
+    ],
+    "steps": [
+      "Luộc trứng khoảng 10 phút, ngâm vào nước lạnh rồi bóc vỏ.",
+      "Rửa sạch thịt, cắt miếng vuông khoảng 3–4 cm.",
+      "Băm hành tím và tỏi. Ướp thịt với nước mắm, tiêu và một nửa phần hành tỏi trong 30 phút.",
+      "Thắng nước màu: cho đường vào nồi, đun lửa nhỏ đến khi đường chuyển màu nâu cánh gián, cho phần hành tỏi còn lại vào phi thơm.",
+      "Cho thịt vào đảo đều đến khi thịt săn và thấm màu.",
+      "Đổ nước dừa vào ngập thịt, đun sôi rồi hớt bọt.",
+      "Cho trứng vào, hạ lửa nhỏ, kho khoảng 45 phút đến khi thịt mềm và nước sánh lại. Nêm lại cho vừa ăn."
+    ]
+  },
+  {
+    "id": "canh-chua-ca-loc",
+    "name": "Canh chua cá lóc",
+    "description": "Canh chua miền Nam vị chua ngọt hài hòa, với cá lóc, thơm, cà chua và bạc hà.",
+    "difficulty": 2,
+    "duration_minutes": 45,
+    "ingredients": [
+      "500 g cá lóc cắt khúc",
+      "1/4 quả thơm (dứa)",
+      "2 quả cà chua",
+      "1 cây bạc hà (dọc mùng)",
+      "100 g giá đỗ",
+      "30 g me chua",
+      "Rau om, ngò gai",
+      "2 thìa canh nước mắm",
+      "1 thìa canh đường",
+      "1 lít nước"
+    ],
+    "steps": [
+      "Làm sạch cá, chà muối để khử nhớt, rửa lại rồi để ráo.",
+      "Ngâm me với một ít nước nóng, dầm lấy nước cốt, bỏ hạt.",
+      "Thơm cắt lát mỏng, cà chua cắt múi cau, bạc hà tước vỏ rồi cắt xéo, rau om và ngò gai thái nhỏ.",
+      "Đun sôi nước, cho nước me và thơm vào nấu khoảng 5 phút.",
+      "Cho cá vào, nấu lửa vừa khoảng 7–8 phút đến khi cá chín, hớt bọt.",
+      "Nêm nước mắm và đường cho vị chua ngọt vừa ăn, cho cà chua vào nấu thêm 2 phút.",
+      "Cho bạc hà và giá vào rồi tắt bếp, rắc rau om và ngò gai lên trên."
+    ]
+  },
+  {
+    "id": "goi-cuon",
+    "name": "Gỏi cuốn tôm thịt",
+    "description": "Gỏi cuốn tôm thịt tươi mát, cuốn cùng bún và rau sống, chấm nước mắm chua ngọt.",
+    "difficulty": 2,
+    "duration_minutes": 60,
+    "ingredients": [
+      "200 g tôm sú",
+      "200 g thịt ba chỉ",
+      "10 lá bánh tráng",
+      "200 g bún tươi",
+      "Xà lách, húng quế, rau thơm",
+      "1 bó hẹ",
+      "Nước chấm: 3 thìa canh nước mắm, 2 thìa canh đường, 1 quả chanh, tỏi, ớt"
+    ],
+    "steps": [
+      "Luộc thịt ba chỉ khoảng 20 phút đến khi chín, vớt ra để nguội rồi thái lát mỏng.",
+      "Luộc tôm khoảng 3 phút, bóc vỏ, bỏ chỉ đen, bổ đôi theo chiều dọc.",
+      "Rửa sạch rau và để ráo; hẹ cắt khúc dài khoảng 15 cm.",
+      "Làm nước chấm: hòa nước mắm và đường với 4 thìa canh nước ấm, vắt chanh, thêm tỏi ớt băm.",
+      "Nhúng nhanh bánh tráng qua nước cho mềm rồi trải lên thớt.",
+      "Xếp rau, bún và thịt lên phần dưới của bánh; đặt 2–3 nửa con tôm ở giữa bánh, mặt đỏ úp xuống.",
+      "Gấp hai mép bên vào, cuộn chặt tay từ dưới lên, để một cọng hẹ ló ra ở đầu cuốn."
+    ]
+  },
+  {
+    "id": "bun-cha",
+    "name": "Bún chả Hà Nội",
+    "description": "Bún chả với chả miếng và chả viên nướng thơm, ăn cùng nước chấm chua ngọt và đồ chua.",
+    "difficulty": 3,
+    "duration_minutes": 90,
+    "ingredients": [
+      "300 g thịt ba chỉ",
+      "300 g thịt nạc vai xay",
+      "500 g bún tươi",
+      "3 củ hành tím",
+      "4 tép tỏi",
+      "3 thìa canh nước mắm",
+      "2 thìa canh đường",
+      "1 thìa canh dầu hào",
+      "1/2 thìa cà phê tiêu",
+      "1 củ cà rốt, 1/2 quả đu đủ xanh",
+      "Rau sống: xà lách, tía tô, kinh giới",
+      "Nước chấm: nước mắm, đường, giấm, tỏi, ớt"
+    ],
+    "steps": [
+      "Thái thịt ba chỉ thành lát mỏng khoảng 0,5 cm.",
+      "Băm hành tím và tỏi. Ướp riêng thịt thái lát và thịt xay, mỗi phần với nước mắm, đường, dầu hào, tiêu và hành tỏi, để ít nhất 30 phút.",
+      "Nặn thịt xay thành những viên dẹt đường kính khoảng 4 cm.",
+      "Làm đồ chua: cà rốt và đu đủ thái lát mỏng, ngâm với giấm, đường và một chút muối trong 15 phút.",
+      "Pha nước chấm: 3 thìa nước mắm, 3 thìa đường, 2 thìa giấm với 300 ml nước ấm, khuấy tan rồi thêm tỏi ớt băm và đồ chua.",
+      "Nướng thịt trên than hoa hoặc bằng nồi chiên không dầu ở 200°C khoảng 15–20 phút, lật đều đến khi vàng xém cạnh.",
+      "Cho chả vào bát nước chấm, dọn cùng bún và rau sống."
+    ]
+  },
+  {
+    "id": "banh-xeo",
+    "name": "Bánh xèo",
+    "description": "Bánh xèo vỏ vàng giòn, nhân tôm thịt và giá, cuốn rau sống chấm nước mắm chua ngọt.",
+    "difficulty": 3,
+    "duration_minutes": 60,
+    "ingredients": [
+      "300 g bột bánh xèo (hoặc 250 g bột gạo và 50 g bột năng)",
+      "1/2 thìa cà phê bột nghệ",
+      "400 ml nước cốt dừa pha loãng",
+      "2 nhánh hành lá",
+      "200 g tôm",
+      "200 g thịt ba chỉ",
+      "300 g giá đỗ",
+      "1 củ hành tây",
+      "Dầu ăn",
+      "Rau sống: cải xanh, xà lách, rau thơm",
+      "Nước mắm chua ngọt để chấm"
+    ],
+    "steps": [
+      "Trộn bột với bột nghệ, đổ từ từ nước cốt dừa vào và khuấy đều thành hỗn hợp lỏng, thêm hành lá cắt nhỏ, để bột nghỉ ít nhất 30 phút.",
+      "Thịt thái lát mỏng, tôm bóc vỏ; ướp cả hai với một ít nước mắm và tiêu. Hành tây thái múi cau, giá rửa sạch.",
+      "Làm nóng chảo chống dính với một ít dầu, cho vài lát thịt, tôm và hành tây vào xào sơ đến khi săn.",
+      "Khuấy lại bột, múc một vá đổ vào chảo và nghiêng chảo thật nhanh để bột dàn mỏng khắp mặt chảo.",
+      "Cho một nắm giá lên một nửa bánh, đậy nắp khoảng 2 phút.",
+      "Mở nắp, rưới thêm ít dầu quanh mép bánh, chiên lửa vừa đến khi bánh vàng giòn thì gấp đôi lại và cho ra đĩa.",
+      "Ăn nóng: cuốn bánh với rau sống và chấm nước mắm chua ngọt."
+    ]
+  },
+  {
+    "id": "pho-bo",
+    "name": "Phở bò",
+    "description": "Phở bò với nước dùng ninh xương trong, thơm quế hồi — món ăn biểu tượng của ẩm thực Việt.",
+    "difficulty": 3,
+    "duration_minutes": 240,
+    "ingredients": [
+      "1,5 kg xương ống bò",
+      "500 g thịt bò nạm hoặc gầu",
+      "300 g thịt bò thăn thái mỏng để làm tái",
+      "1 kg bánh phở",
+      "1 củ gừng",
+      "3 củ hành tây hoặc hành tím",
+      "Gia vị phở: 3 hoa hồi, 1 thanh quế, 1 thìa hạt mùi, 3 quả thảo quả, 5 nụ đinh hương",
+      "4 thìa canh nước mắm",
+      "1 miếng đường phèn nhỏ",
+      "Muối",
+      "Hành lá, ngò gai, húng quế, chanh, ớt"
+    ],
+    "steps": [
+      "Rửa sạch xương, chần qua nước sôi 5 phút rồi đổ bỏ nước, rửa lại để nước dùng được trong.",
+      "Nướng gừng và hành đến khi vỏ cháy sém, cạo sạch phần cháy. Rang thơm hoa hồi, quế, hạt mùi, thảo quả, đinh hương rồi cho vào túi lọc.",
+      "Cho xương vào nồi với khoảng 5 lít nước, thêm gừng và hành nướng, đun sôi rồi hạ lửa nhỏ, thường xuyên hớt bọt.",
+      "Cho thịt nạm vào ninh cùng khoảng 45–60 phút đến khi chín mềm, vớt ra ngâm nước lạnh rồi thái mỏng.",
+      "Ninh xương tiếp ít nhất 2–3 giờ; khoảng 45 phút cuối thì thả túi gia vị vào.",
+      "Nêm nước dùng với nước mắm, đường phèn và muối cho vừa ăn, vớt túi gia vị ra.",
+      "Trụng bánh phở qua nước sôi, cho vào bát, xếp thịt chín, thịt tái và hành lá lên trên.",
+      "Chan nước dùng thật sôi để thịt tái chín tới, ăn kèm rau thơm, chanh và ớt."
+    ]
+  }
+]
