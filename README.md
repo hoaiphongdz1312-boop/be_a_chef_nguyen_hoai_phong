@@ -29,19 +29,19 @@ phù hợp trình độ. Mọi xử lý diễn ra **offline trên máy**, ảnh 
 
 ## Tải APK
 
-Tải tại **[Release v1.0.0](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/tag/v1.0.0)**
+Tải tại **[Release v1.0.1](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/tag/v1.0.1)**
 (các bản cũ/mới hơn: [tất cả Releases](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases)).
 
 | File | Dùng cho | Dung lượng |
 |---|---|---|
-| [`be_a_chef_nguyen_hoai_phong_v1.0.0_arm64-v8a.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.0/be_a_chef_nguyen_hoai_phong_v1.0.0_arm64-v8a.apk) | **Đa số điện thoại hiện nay (khuyên dùng)** | 41.5 MB |
-| [`be_a_chef_nguyen_hoai_phong_v1.0.0_armeabi-v7a.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.0/be_a_chef_nguyen_hoai_phong_v1.0.0_armeabi-v7a.apk) | Điện thoại 32-bit đời cũ | 33.7 MB |
-| [`be_a_chef_nguyen_hoai_phong_v1.0.0_x86_64.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.0/be_a_chef_nguyen_hoai_phong_v1.0.0_x86_64.apk) | Máy ảo Android (emulator) | 45.8 MB |
-| [`be_a_chef_nguyen_hoai_phong_v1.0.0.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.0/be_a_chef_nguyen_hoai_phong_v1.0.0.apk) | Bản universal, chạy mọi máy (không biết chọn thì tải file này) | 100.5 MB |
+| [`be_a_chef_nguyen_hoai_phong_v1.0.1_arm64-v8a.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.1/be_a_chef_nguyen_hoai_phong_v1.0.1_arm64-v8a.apk) | **Đa số điện thoại hiện nay (khuyên dùng)** | 41.5 MB |
+| [`be_a_chef_nguyen_hoai_phong_v1.0.1_armeabi-v7a.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.1/be_a_chef_nguyen_hoai_phong_v1.0.1_armeabi-v7a.apk) | Điện thoại 32-bit đời cũ | 33.7 MB |
+| [`be_a_chef_nguyen_hoai_phong_v1.0.1_x86_64.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.1/be_a_chef_nguyen_hoai_phong_v1.0.1_x86_64.apk) | Máy ảo Android (emulator) | 45.8 MB |
+| [`be_a_chef_nguyen_hoai_phong_v1.0.1.apk`](https://github.com/hoaiphongdz1312-boop/be_a_chef_nguyen_hoai_phong/releases/download/v1.0.1/be_a_chef_nguyen_hoai_phong_v1.0.1.apk) | Bản universal, chạy mọi máy (không biết chọn thì tải file này) | 100.5 MB |
 
 Yêu cầu: Android **8.0 (API 26)** trở lên, có camera trước.
 
-> **Về chữ ký APK:** nhóm chưa có keystore release, nên APK v1.0.0 được **ký bằng debug key**
+> **Về chữ ký APK:** nhóm chưa có keystore release, nên APK v1.0.1 được **ký bằng debug key**
 > (`signingConfig = signingConfigs.getByName("debug")` trong `android/app/build.gradle.kts`).
 > Cài và dùng bình thường, nhưng Google Play Protect có thể cảnh báo, và bản này không đưa lên Google Play được.
 > Khi chuyển sang keystore release, người dùng phải **gỡ bản cũ** rồi mới cài được bản mới (khác chữ ký).
