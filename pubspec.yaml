@@ -2,7 +2,7 @@ name: nau_an_vip
 description: "Be A Chef - nhận diện khuôn mặt học viên để cá nhân hóa bài học nấu ăn."
 publish_to: 'none'
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: ^3.13.3
