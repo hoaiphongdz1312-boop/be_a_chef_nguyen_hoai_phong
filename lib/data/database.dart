@@ -10,8 +10,9 @@ import 'models/lesson.dart';
 /// Lịch sử phiên bản:
 /// - v1: bảng learners.
 /// - v2: thêm lessons và progress.
+/// - v3: rút gọn danh sách món (10 → 4), đồng bộ bảng lessons với lessons.json.
 abstract final class AppDatabase {
-  static const int _version = 2;
+  static const int _version = 3;
   static Future<Database>? _db;
 
   static Future<Database> get instance => _db ??= _open();
@@ -29,6 +30,7 @@ abstract final class AppDatabase {
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) await _createLessonsAndProgress(db);
+        if (oldVersion < 3) await _syncLessonsWithAsset(db);
       },
     );
     await _seedLessonsIfEmpty(db);
@@ -87,5 +89,33 @@ abstract final class AppDatabase {
       batch.insert('lessons', lesson.toMap());
     }
     await batch.commit(noResult: true);
+  }
+
+  /// Máy đã cài bản cũ (10 món): xóa các món không còn trong lessons.json
+  /// (tiến độ của món đó bị xóa theo nhờ ON DELETE CASCADE) và cập nhật lại
+  /// nội dung, thứ tự các món còn giữ. Tiến độ của món còn giữ không đổi.
+  static Future<void> _syncLessonsWithAsset(Database db) async {
+    final lessons = Lesson.listFromJson(
+      await rootBundle.loadString(AppConfig.lessonsAsset),
+    );
+    final ids = lessons.map((l) => l.id).toList();
+    await db.transaction((txn) async {
+      await txn.delete(
+        'lessons',
+        where: 'id NOT IN (${List.filled(ids.length, '?').join(', ')})',
+        whereArgs: ids,
+      );
+      // Dùng UPDATE, không dùng INSERT OR REPLACE: REPLACE xóa dòng cũ trước
+      // nên có thể kéo theo xóa tiến độ (ON DELETE CASCADE).
+      for (final lesson in lessons) {
+        final updated = await txn.update(
+          'lessons',
+          lesson.toMap(),
+          where: 'id = ?',
+          whereArgs: [lesson.id],
+        );
+        if (updated == 0) await txn.insert('lessons', lesson.toMap());
+      }
+    });
   }
 }

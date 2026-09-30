@@ -9,8 +9,8 @@ void main() {
   final lessons =
       Lesson.listFromJson(File('assets/data/lessons.json').readAsStringSync());
 
-  test('có 8–10 món', () {
-    expect(lessons.length, inInclusiveRange(8, 10));
+  test('có 3–4 món tượng trưng', () {
+    expect(lessons.length, inInclusiveRange(3, 4));
   });
 
   test('id không trùng', () {

@@ -16,7 +16,7 @@ phù hợp trình độ. Mọi xử lý diễn ra **offline trên máy**, ảnh 
 - **Đăng ký học viên**: nhập tên, app tự chụp 3–5 mẫu mặt (chỉ nhận khung hình có đúng 1 mặt, đủ lớn, nhìn thẳng).
 - **Trang "Bếp của bạn"**: gợi ý món tiếp theo kèm lý do, danh sách món đang học dở, nút đổi người dùng.
 - **Gợi ý theo luật**: ưu tiên món đang dở → món cùng độ khó đã đạt → khó hơn một bậc → người mới bắt đầu từ món dễ nhất.
-- **Danh sách 10 món** (độ khó 1–3), lọc theo độ khó, hiện trạng thái học của từng món.
+- **Danh sách 4 món tượng trưng** (độ khó 1–3: Trứng chiên hành, Rau muống xào tỏi, Thịt kho trứng, Bánh xèo), lọc theo độ khó, hiện trạng thái học của từng món.
 - **Học từng bước**: xem nguyên liệu, làm lần lượt từng bước; tiến độ lưu riêng cho mỗi học viên (SQLite trên máy).
 
 ## Ảnh chụp màn hình
@@ -130,7 +130,7 @@ Phiên bản ở trên là bản đã khóa trong `pubspec.lock`.
   khuôn mặt giống nhau (anh chị em) có thể nhận nhầm hoặc không nhận ra → dùng **Chọn thủ công**.
 - Chỉ hỗ trợ **màn hình dọc**, cần **camera trước** và Android **8.0+** (do `tflite_flutter` yêu cầu API 26).
 - Trên **máy ảo Android**, camera trước thường là hình giả lập hoặc màn đen → không nhận diện được; nên thử trên máy thật.
-- Chỉ có 10 món cố định trong `lessons.json`, chưa có màn thêm/sửa món; chưa có màn xóa/sửa học viên.
+- Chỉ có 4 món mẫu cố định trong `lessons.json`, chưa có màn thêm/sửa món; chưa có màn xóa/sửa học viên.
 - Dữ liệu chỉ nằm trên máy: gỡ app hoặc xóa dữ liệu app là mất học viên và tiến độ; không có sao lưu/đồng bộ.
 - Chưa build và kiểm thử cho iOS.
 
