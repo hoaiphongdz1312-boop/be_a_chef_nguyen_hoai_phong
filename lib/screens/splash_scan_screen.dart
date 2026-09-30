@@ -9,7 +9,6 @@ import '../services/face_detector_service.dart';
 import '../services/face_embedding_service.dart';
 import '../services/face_math.dart';
 import '../widgets/camera_view.dart';
-import '../widgets/learner_picker_sheet.dart';
 import 'dashboard_screen.dart';
 import 'register_screen.dart';
 
@@ -18,8 +17,10 @@ import 'register_screen.dart';
 /// Mỗi khung hình đạt chuẩn (1 mặt, đủ lớn, nhìn thẳng) được so khớp với tất
 /// cả học viên. Chỉ cho vào khi [AppConfig.requiredConsecutiveMatches] khung
 /// LIÊN TIẾP cùng khớp một người (đạt ngưỡng và bỏ xa người thứ hai).
-/// Khung không khớp tính là một lần thất bại. Thất bại [AppConfig.maxScanAttempts] lần hoặc
-/// bấm "Chọn thủ công" thì cho chọn tên từ danh sách.
+/// Khung không khớp tính là một lần thất bại. Thất bại [AppConfig.maxScanAttempts]
+/// lần thì dừng quét, báo "Chưa nhận ra bạn" với 2 lựa chọn: Thử lại hoặc
+/// Đăng ký mới. KHÔNG có chọn tên thủ công: chỉ khuôn mặt khớp mới vào được
+/// tài khoản, để không ai vào nhầm tài khoản của người khác.
 class SplashScanScreen extends StatefulWidget {
   const SplashScanScreen({super.key});
 
@@ -27,9 +28,10 @@ class SplashScanScreen extends StatefulWidget {
   State<SplashScanScreen> createState() => _SplashScanScreenState();
 }
 
-/// - picking: đang mở bảng chọn thủ công (camera vẫn hiện, bỏ qua frame).
+/// - failed: quét thất bại quá số lần cho phép (camera vẫn hiện, bỏ qua frame)
+///   → chờ người dùng bấm Thử lại hoặc Đăng ký mới.
 /// - away: đang ở màn Đăng ký → gỡ camera để không mở 2 camera cùng lúc.
-enum _Phase { loading, empty, scanning, picking, away, greeting, error }
+enum _Phase { loading, empty, scanning, failed, away, greeting, error }
 
 class _SplashScanScreenState extends State<SplashScanScreen> {
   final _repo = LearnerRepository();
@@ -128,7 +130,10 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
     _streak.reset();
     _failures++;
     if (_failures >= AppConfig.maxScanAttempts) {
-      _pickManually();
+      setState(() {
+        _phase = _Phase.failed;
+        _hint = 'Chưa nhận ra bạn. Thử lại hoặc đăng ký nếu bạn là người mới.';
+      });
     } else {
       _nextAttemptAt = DateTime.now().add(AppConfig.scanRetryDelay);
       _setHint('Chưa nhận ra bạn, thử lại '
@@ -140,21 +145,15 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
     if (mounted && hint != _hint) setState(() => _hint = hint);
   }
 
-  Future<void> _pickManually() async {
-    setState(() => _phase = _Phase.picking);
-    final learner = await showLearnerPicker(context, _learners);
-    if (!mounted) return;
-    if (learner != null) {
-      _greet(learner);
-    } else {
-      // Đóng bảng chọn → quét lại từ đầu.
-      setState(() {
-        _failures = 0;
-        _streak.reset();
-        _hint = 'Nhìn thẳng vào camera';
-        _phase = _Phase.scanning;
-      });
-    }
+  /// Quét lại từ đầu sau khi thất bại.
+  void _retry() {
+    setState(() {
+      _failures = 0;
+      _streak.reset();
+      _nextAttemptAt = DateTime.fromMillisecondsSinceEpoch(0);
+      _hint = 'Nhìn thẳng vào camera';
+      _phase = _Phase.scanning;
+    });
   }
 
   Future<void> _register() async {
@@ -170,7 +169,9 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
       setState(() {
         _failures = 0;
         _streak.reset();
-        _phase = previous;
+        _hint = 'Nhìn thẳng vào camera';
+        // Từ màn "thất bại" sang đăng ký rồi quay lại thì quét lại từ đầu.
+        _phase = previous == _Phase.failed ? _Phase.scanning : previous;
       });
     }
   }
@@ -216,7 +217,7 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
               title: 'Xin chào ${_greeted!.name}!',
               text: 'Cùng vào bếp nào.',
             ),
-          _Phase.scanning || _Phase.picking => _buildScanner(context),
+          _Phase.scanning || _Phase.failed => _buildScanner(context),
         },
       ),
     );
@@ -224,6 +225,7 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
 
   Widget _buildScanner(BuildContext context) {
     final theme = Theme.of(context);
+    final failed = _phase == _Phase.failed;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -236,24 +238,33 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
           Expanded(child: FaceCameraView(onFrame: _onFrame)),
           const SizedBox(height: 12),
           Text(_hint,
-              style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: failed ? theme.colorScheme.error : null,
+              ),
+              textAlign: TextAlign.center),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: _phase == _Phase.scanning ? _pickManually : null,
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
+              // "Thử lại" chỉ hiện khi đã quét thất bại.
+              if (failed) ...[
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: _retry,
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Thử lại'),
                   ),
-                  icon: const Icon(Icons.list_alt),
-                  label: const Text('Chọn thủ công'),
                 ),
-              ),
-              const SizedBox(width: 12),
+                const SizedBox(width: 12),
+              ],
               Expanded(
                 child: FilledButton.icon(
-                  onPressed: _phase == _Phase.scanning ? _register : null,
+                  onPressed: _register,
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(48),
+                  ),
                   icon: const Icon(Icons.person_add_alt_1),
                   label: const Text('Đăng ký mới'),
                 ),

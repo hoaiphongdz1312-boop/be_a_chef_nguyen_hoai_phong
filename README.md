@@ -12,7 +12,9 @@ phù hợp trình độ. Mọi xử lý diễn ra **offline trên máy**, ảnh 
 ## App làm được gì
 
 - **Quét mặt khi mở app**: nhận diện học viên đã đăng ký → chào "Xin chào, *tên*!" → vào trang riêng.
-  Thử tối đa 3 lần; thất bại thì chuyển sang **chọn tên thủ công**.
+  Phải khớp **3 khung hình liên tiếp** cùng một người mới cho vào. Mỗi khuôn mặt chỉ vào được đúng tài khoản của mình,
+  không có chọn tên thủ công; quét không ra thì bấm **Thử lại** hoặc **Đăng ký mới**.
+- **Mỗi khuôn mặt một tài khoản**: khuôn mặt đã đăng ký thì không tạo được tài khoản thứ hai.
 - **Đăng ký học viên**: nhập tên, app tự chụp 3–5 mẫu mặt (chỉ nhận khung hình có đúng 1 mặt, đủ lớn, nhìn thẳng).
 - **Trang "Bếp của bạn"**: gợi ý món tiếp theo kèm lý do, danh sách món đang học dở, nút đổi người dùng.
 - **Gợi ý theo luật**: ưu tiên món đang dở → món cùng độ khó đã đạt → khó hơn một bậc → người mới bắt đầu từ món dễ nhất.
@@ -61,7 +63,8 @@ Yêu cầu: Android **8.0 (API 26)** trở lên, có camera trước.
 2. Nhập tên, giữ điện thoại ngang mặt, nhìn thẳng vào camera trước. App tự chụp mẫu; đủ 3 mẫu thì bấm **Lưu**
    (bấm **Chụp lại** nếu muốn làm lại).
 3. **Những lần sau**: mở app, nhìn thẳng vào camera → app chào tên bạn và vào trang **Bếp của bạn**.
-   Nếu không nhận ra, bấm **Chọn thủ công** để chọn tên, hoặc **Đăng ký mới**.
+   Giữ yên vài giây để app xác nhận. Nếu sau 3 lần vẫn không nhận ra, app báo *"Chưa nhận ra bạn"*:
+   bấm **Thử lại** (chỉnh ánh sáng, nhìn thẳng) hoặc **Đăng ký mới** nếu bạn là người mới.
 4. Ở **Bếp của bạn**: bấm vào món gợi ý hoặc món đang học dở để học tiếp; bấm **Xem tất cả món** để xem và lọc theo độ khó.
 5. Trong màn học: đọc nguyên liệu, làm từng bước rồi bấm **Xong bước này**. Thoát giữa chừng không sao,
    lần sau mở lại app sẽ nhảy tới đúng bước đang dừng.
@@ -74,15 +77,17 @@ flowchart TD
     A([Mở app]) --> B{Đã có học viên?}
     B -- Chưa --> R[Đăng ký học viên<br/>nhập tên + chụp 3–5 mẫu mặt]
     B -- Có --> C[Quét mặt bằng camera trước]
-    C --> D{Khớp học viên?<br/>cosine ≥ 0.70}
+    C --> D{Khớp 1 học viên?<br/>cosine ≥ 0.80, bỏ xa người thứ 2<br/>3 khung liên tiếp}
     D -- Có --> G["Xin chào, tên!"]
     D -- Không --> E{Đã thử 3 lần?}
     E -- Chưa --> C
-    E -- Rồi --> M[Chọn tên thủ công]
-    C -. bấm nút .-> M
-    M -- Chọn được --> G
-    M -- Đóng --> C
-    R --> G
+    E -- Rồi --> F[Chưa nhận ra bạn]
+    F -- Thử lại --> C
+    F -- Đăng ký mới --> R
+    C -. bấm nút .-> R
+    R --> K{Mặt đã có<br/>tài khoản?}
+    K -- Có --> X[Báo đã đăng ký,<br/>không tạo thêm]
+    K -- Chưa --> G
     G --> H[Bếp của bạn<br/>gợi ý + món đang học dở]
     H --> L[Danh sách món<br/>lọc theo độ khó]
     H --> S[Học từng bước]
@@ -126,8 +131,9 @@ Phiên bản ở trên là bản đã khóa trong `pubspec.lock`.
 
 - **Chưa chống ảnh giả**: logic nháy mắt (`lib/services/liveness_service.dart`) đã viết và có test nhưng chưa gắn vào
   màn quét, nên đưa ảnh/video khuôn mặt của học viên vào camera vẫn có thể được nhận diện. Không dùng app cho mục đích bảo mật.
-- Ngưỡng cosine `0.70` được chọn qua thử nghiệm trên ít người; ánh sáng yếu, đeo khẩu trang/kính râm, hoặc người có
-  khuôn mặt giống nhau (anh chị em) có thể nhận nhầm hoặc không nhận ra → dùng **Chọn thủ công**.
+- Ngưỡng cosine `0.80` (cùng khoảng cách tối thiểu `0.08` với người giống thứ hai) được chọn thiên về an toàn và chưa
+  hiệu chỉnh trên nhiều người: ánh sáng yếu, đeo khẩu trang/kính râm hoặc máy ảo có thể không nhận ra → bấm **Thử lại**;
+  người có khuôn mặt rất giống nhau (anh chị em) có thể không đăng ký được tài khoản thứ hai.
 - Chỉ hỗ trợ **màn hình dọc**, cần **camera trước** và Android **8.0+** (do `tflite_flutter` yêu cầu API 26).
 - Trên **máy ảo Android**, camera trước thường là hình giả lập hoặc màn đen → không nhận diện được; nên thử trên máy thật.
 - Chỉ có 4 món mẫu cố định trong `lessons.json`, chưa có màn thêm/sửa món; chưa có màn xóa/sửa học viên.

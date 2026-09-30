@@ -69,7 +69,7 @@ abstract final class AppConfig {
   // Quét mặt khi mở app
   // ---------------------------------------------------------------------------
 
-  /// Số lần nhận diện thất bại trước khi chuyển sang chọn thủ công.
+  /// Số lần nhận diện thất bại trước khi dừng quét, báo "Chưa nhận ra bạn".
   static const int maxScanAttempts = 3;
 
   /// Nghỉ giữa 2 lần thử để người dùng kịp chỉnh tư thế.
