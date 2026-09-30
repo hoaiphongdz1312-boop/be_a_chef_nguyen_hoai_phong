@@ -16,8 +16,27 @@ abstract final class AppConfig {
   // ---------------------------------------------------------------------------
 
   /// Ngưỡng độ giống cosine (trên vector đã chuẩn hóa L2) để coi là cùng người.
-  /// Độ giống chỉ được in ra debug log, không hiện trên UI.
-  static const double matchThreshold = 0.70;
+  /// Độ giống chỉ được in ra debug log (`[Scan] ...`), không hiện trên UI.
+  /// 0.70 cũ quá lỏng: người lạ vẫn hay đạt 0.6–0.8 nên bị nhận nhầm.
+  /// Nếu người đã đăng ký khó được nhận ra thì xem log rồi hạ dần (0.78, 0.76…).
+  static const double matchThreshold = 0.80;
+
+  /// Người giống nhất phải hơn người giống thứ hai ít nhất chừng này,
+  /// nếu không thì coi là không chắc chắn và không cho vào.
+  static const double matchMargin = 0.08;
+
+  /// Số khung hình LIÊN TIẾP phải cùng khớp một học viên mới cho vào
+  /// (tránh một khung hình "may mắn" vượt ngưỡng).
+  static const int requiredConsecutiveMatches = 3;
+
+  /// Khi đăng ký: mẫu mới phải giống các mẫu trước ít nhất chừng này
+  /// (bảo đảm tất cả mẫu là của cùng một người).
+  static const double registerSampleMinSimilarity = 0.75;
+
+  /// Khi đăng ký: khuôn mặt giống học viên đã có từ mức này trở lên thì
+  /// coi là đã đăng ký rồi, không cho tạo tài khoản thứ hai.
+  /// Thấp hơn [matchThreshold] một chút để chặn chắc hơn.
+  static const double duplicateFaceThreshold = 0.75;
 
   /// Chuẩn hóa pixel cho MobileFaceNet: (giá trị − mean) / std.
   /// Lấy theo mã nguồn gốc của model (MCarlomagno/FaceRecognitionAuth).

@@ -54,31 +54,106 @@ Float32List averageEmbedding(List<List<double>> samples) {
 
 /// Kết quả so khớp: ứng viên giống nhất và độ giống của nó.
 class MatchResult<T> {
-  const MatchResult(this.candidate, this.score, {required this.accepted});
+  const MatchResult(
+    this.candidate,
+    this.score, {
+    required this.accepted,
+    this.secondScore,
+  });
 
   final T candidate;
   final double score;
 
-  /// `true` nếu [score] đạt ngưỡng.
+  /// Độ giống của ứng viên đứng thứ hai (`null` nếu chỉ có 1 ứng viên).
+  final double? secondScore;
+
+  /// `true` nếu [score] đạt ngưỡng VÀ bỏ xa ứng viên thứ hai đủ khoảng cách.
   final bool accepted;
 }
 
 /// Tìm ứng viên có độ giống cosine cao nhất với [query].
 ///
-/// Luôn trả về ứng viên tốt nhất (để ghi debug log), kèm cờ [MatchResult.accepted]
-/// cho biết có đạt [threshold] hay không. Trả về `null` khi không có ứng viên.
+/// Chỉ chấp nhận khi:
+/// - độ giống ≥ [threshold], và
+/// - hơn ứng viên thứ hai ít nhất [margin] (khi có từ 2 ứng viên) — nếu hai
+///   người cùng giống xấp xỉ nhau thì không đủ chắc để chọn ai.
+///
+/// Luôn trả về ứng viên tốt nhất (để ghi debug log), kèm cờ [MatchResult.accepted].
+/// Trả về `null` khi không có ứng viên.
 MatchResult<T>? findBestMatch<T>(
   List<double> query,
   Iterable<T> candidates,
   List<double> Function(T) embeddingOf, {
   required double threshold,
+  double margin = 0,
 }) {
-  MatchResult<T>? best;
+  T? best;
+  var bestScore = double.negativeInfinity;
+  double? secondScore;
   for (final c in candidates) {
     final score = cosineSimilarity(query, embeddingOf(c));
-    if (best == null || score > best.score) {
-      best = MatchResult(c, score, accepted: score >= threshold);
+    if (best == null || score > bestScore) {
+      if (best != null) secondScore = bestScore;
+      best = c;
+      bestScore = score;
+    } else if (secondScore == null || score > secondScore) {
+      secondScore = score;
     }
   }
-  return best;
+  if (best == null) return null;
+  final clearWinner = secondScore == null || bestScore - secondScore >= margin;
+  return MatchResult(
+    best,
+    bestScore,
+    secondScore: secondScore,
+    accepted: bestScore >= threshold && clearWinner,
+  );
+}
+
+/// Đếm số khung hình liên tiếp cùng khớp một học viên.
+///
+/// Mỗi khung hình gọi [add] với id học viên khớp (hoặc `null` nếu không khớp).
+/// Đổi người hoặc không khớp thì đếm lại từ đầu.
+class ConsecutiveMatchCounter<K> {
+  ConsecutiveMatchCounter(this.required);
+
+  /// Số khung hình liên tiếp cần đạt.
+  final int required;
+
+  K? _current;
+  int _count = 0;
+
+  int get count => _count;
+
+  /// Trả về `true` khi đã đủ [required] khung liên tiếp cùng một [key].
+  bool add(K? key) {
+    if (key == null) {
+      reset();
+      return false;
+    }
+    if (key == _current) {
+      _count++;
+    } else {
+      _current = key;
+      _count = 1;
+    }
+    return _count >= required;
+  }
+
+  void reset() {
+    _current = null;
+    _count = 0;
+  }
+}
+
+/// Mẫu [sample] có thuộc cùng người với các mẫu [previous] đã chụp không:
+/// so với vector trung bình của các mẫu trước, đạt [minSimilarity] là được.
+/// Chưa có mẫu nào thì luôn đúng.
+bool isConsistentSample(
+  List<double> sample,
+  List<List<double>> previous, {
+  required double minSimilarity,
+}) {
+  if (previous.isEmpty) return true;
+  return cosineSimilarity(sample, averageEmbedding(previous)) >= minSimilarity;
 }

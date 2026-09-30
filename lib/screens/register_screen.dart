@@ -13,7 +13,8 @@ import '../widgets/camera_view.dart';
 /// Đăng ký học viên: nhập tên và tự chụp 3–5 mẫu khuôn mặt.
 ///
 /// Một mẫu chỉ được nhận khi khung hình có đúng 1 mặt, đủ lớn và nhìn thẳng.
-/// Khi lưu, vector trung bình của các mẫu được ghi vào DB.
+/// Các mẫu phải cùng một người (mẫu lệch bị bỏ). Khi lưu, nếu khuôn mặt đã
+/// thuộc một học viên khác thì từ chối; ngược lại ghi vector trung bình vào DB.
 /// Trả về [Learner] vừa tạo qua `Navigator.pop`.
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -71,6 +72,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
       frame.faces.single.boundingBox,
     );
     if (!mounted) return;
+    // Mọi mẫu phải của CÙNG một người: mẫu lệch hẳn so với các mẫu trước
+    // (vd. người khác chen vào khung) thì bỏ, không tính.
+    if (!isConsistentSample(
+      embedding,
+      _samples,
+      minSimilarity: AppConfig.registerSampleMinSimilarity,
+    )) {
+      debugPrint('[Register] bỏ mẫu lệch so với các mẫu trước');
+      _lastSampleAt = DateTime.now();
+      _setHint('Chỉ một người đăng ký, giữ nguyên khuôn mặt trong khung');
+      return;
+    }
     setState(() {
       _samples.add(embedding);
       _lastSampleAt = DateTime.now();
@@ -89,9 +102,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (name.isEmpty || !_enoughSamples) return;
     setState(() => _saving = true);
     try {
-      final learner = await LearnerRepository().insert(
+      final repo = LearnerRepository();
+      final embedding = averageEmbedding(_samples);
+
+      // Mỗi khuôn mặt chỉ được một tài khoản: nếu mặt này giống một học viên
+      // đã có thì không tạo thêm.
+      final existing = [
+        for (final l in await repo.getAll())
+          if (l.embedding.length == embedding.length) l,
+      ];
+      final same = findBestMatch(
+        embedding,
+        existing,
+        (l) => l.embedding,
+        threshold: AppConfig.duplicateFaceThreshold,
+      );
+      debugPrint('[Register] giống nhất trong DB: ${same?.candidate.name} '
+          'score=${same?.score.toStringAsFixed(3)}');
+      if (same != null && same.accepted) {
+        if (!mounted) return;
+        setState(() {
+          _saving = false;
+          _samples.clear();
+          _hint = 'Đưa khuôn mặt vào khung hình';
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Khuôn mặt này đã được đăng ký với tên '
+              '"${same.candidate.name}". Mỗi người chỉ có một tài khoản.'),
+        ));
+        return;
+      }
+
+      final learner = await repo.insert(
         name: name,
-        embedding: averageEmbedding(_samples),
+        embedding: embedding,
         sampleCount: _samples.length,
       );
       if (mounted) Navigator.of(context).pop<Learner>(learner);

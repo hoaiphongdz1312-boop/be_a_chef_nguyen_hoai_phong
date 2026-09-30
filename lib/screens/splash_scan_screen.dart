@@ -15,8 +15,10 @@ import 'register_screen.dart';
 
 /// Màn mở app: quét mặt → "Xin chào `tên`!" → Dashboard.
 ///
-/// Mỗi lần thử = một khung hình đạt chuẩn (1 mặt, đủ lớn, nhìn thẳng) được
-/// so khớp với tất cả học viên. Thất bại [AppConfig.maxScanAttempts] lần hoặc
+/// Mỗi khung hình đạt chuẩn (1 mặt, đủ lớn, nhìn thẳng) được so khớp với tất
+/// cả học viên. Chỉ cho vào khi [AppConfig.requiredConsecutiveMatches] khung
+/// LIÊN TIẾP cùng khớp một người (đạt ngưỡng và bỏ xa người thứ hai).
+/// Khung không khớp tính là một lần thất bại. Thất bại [AppConfig.maxScanAttempts] lần hoặc
 /// bấm "Chọn thủ công" thì cho chọn tên từ danh sách.
 class SplashScanScreen extends StatefulWidget {
   const SplashScanScreen({super.key});
@@ -38,6 +40,8 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
 
   String _hint = 'Nhìn thẳng vào camera';
   int _failures = 0;
+  final _streak =
+      ConsecutiveMatchCounter<int>(AppConfig.requiredConsecutiveMatches);
   DateTime _nextAttemptAt = DateTime.fromMillisecondsSinceEpoch(0);
 
   @override
@@ -64,6 +68,7 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
         _embedder = embedder;
         _learners = learners;
         _failures = 0;
+        _streak.reset();
         _hint = 'Nhìn thẳng vào camera';
         _phase = learners.isEmpty ? _Phase.empty : _Phase.scanning;
       });
@@ -80,6 +85,8 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
 
     final issue = checkFaceQuality(frame.faces, frame.uprightSize.width);
     if (issue != null) {
+      // Mặt rời khung / có người khác chen vào → xác nhận lại từ đầu.
+      _streak.reset();
       _setHint(issue.message);
       return;
     }
@@ -96,18 +103,29 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
       _learners,
       (l) => l.embedding,
       threshold: AppConfig.matchThreshold,
+      margin: AppConfig.matchMargin,
     );
     // Độ giống chỉ ghi ra debug log, không hiện trên UI.
+    // Dùng log này để chỉnh ngưỡng trong config.dart nếu cần.
     debugPrint('[Scan] giống nhất: ${match?.candidate.name} '
         'score=${match?.score.toStringAsFixed(3)} '
+        'thứ hai=${match?.secondScore?.toStringAsFixed(3)} '
         'ngưỡng=${AppConfig.matchThreshold} → '
         '${match?.accepted == true ? 'KHỚP' : 'không khớp'}');
 
     if (match != null && match.accepted) {
-      _greet(match.candidate);
+      // Phải khớp CÙNG một người ở nhiều khung hình liên tiếp mới cho vào,
+      // một khung hình vượt ngưỡng do ngẫu nhiên là chưa đủ.
+      if (_streak.add(match.candidate.id)) {
+        _greet(match.candidate);
+      } else {
+        _setHint('Giữ yên, đang xác nhận… '
+            '(${_streak.count}/${AppConfig.requiredConsecutiveMatches})');
+      }
       return;
     }
 
+    _streak.reset();
     _failures++;
     if (_failures >= AppConfig.maxScanAttempts) {
       _pickManually();
@@ -132,6 +150,7 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
       // Đóng bảng chọn → quét lại từ đầu.
       setState(() {
         _failures = 0;
+        _streak.reset();
         _hint = 'Nhìn thẳng vào camera';
         _phase = _Phase.scanning;
       });
@@ -150,6 +169,7 @@ class _SplashScanScreenState extends State<SplashScanScreen> {
     } else {
       setState(() {
         _failures = 0;
+        _streak.reset();
         _phase = previous;
       });
     }
